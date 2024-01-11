@@ -27,18 +27,21 @@ class TestPlant:
             plant_1.is_in_stock = True
             db.session.add(plant_1)
             db.session.commit()
-            
+
         response = app.test_client().patch(
             '/plants/1',
-            json = {
+            json={
                 "is_in_stock": False,
             }
         )
         data = json.loads(response.data.decode())
 
-        assert(type(data) == dict)
-        assert(data["id"])
-        assert(data["is_in_stock"] == False)
+        assert type(data) == dict
+        assert "id" in data  # Adjust this line to check for the presence of 'id'
+        assert "is_in_stock" in data
+        assert data["is_in_stock"] == False
+        assert "name" in data  # Assuming "name" is a relevant key in your JSON response
+        assert "price" in data  # Assuming "price" is a relevant key in your JSON response
 
     def test_plant_by_id_delete_route_deletes_plant(self):
         '''returns JSON representing updated Plant object at "/plants/<int:id>".'''
